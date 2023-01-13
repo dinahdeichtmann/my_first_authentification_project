@@ -1,0 +1,28 @@
+{
+  "name": "my_first_authentification_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dinahdeichtmann/my_first_authentification_project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dinahdeichtmann/my_first_authentification_project/issues"
+  },
+  "homepage": "https://github.com/dinahdeichtmann/my_first_authentification_project#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3"
+  }
+}
