@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./style.css" rel="stylesheet" type="text/css" />
+    <title>Sign in</title>
+  </head>
+  <body>
+    <div class="center">
+      <h1>Sign in</h1>
+      <form action="/signin" method="post">
+        <div class="text-field">
+          <input type="text" name="email" id="email" required />
+          <span></span>
+          <label for="email">E-mail</label>
+        </div>
+        <div class="text-field">
+          <input type="password" name="password" id="password" required />
+          <span></span>
+          <label for="password">Password</label>
+        </div>
+        <div class="pass">
+          <a href="http://localhost:3000/forgotten-password">
+            Forgot your password?
+          </a>
+        </div>
+        <input type="submit" value="Sign in" />
+        <div class="link">
+          Not a member yet?
+          <a href="http://localhost:3000/signup"> Signup! </a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

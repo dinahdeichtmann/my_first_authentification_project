@@ -12,35 +12,35 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.render("index.ejs", { name: "Dinah" });
+  res.render("signin.ejs");
 });
 
-app.get("/login", (req, res) => {
-  res.render("login.ejs");
-});
-
-app.post("/login", async (req, res) => {
+app.post("/signin", async (req, res) => {
   const user = users.find((user) => user.email === req.body.email);
 
   if (user == null) {
-    return res.status(400).send("Cannot find user");
+    res.redirect("signin_error");
   }
   try {
     if (bcrypt.compare(req.body.password, user.password)) {
       res.send("Success");
     } else {
-      res.send("Not allowed");
+      res.redirect("signin_error");
     }
   } catch {
     res.status(500).send();
   }
 });
 
-app.get("/register", (req, res) => {
-  res.render("register.ejs");
+app.get("/signin_error", (req, res) => {
+  res.render("signin_error.ejs");
 });
 
-app.post("/register", async (req, res) => {
+app.get("/signup", (req, res) => {
+  res.render("signup.ejs");
+});
+
+app.post("/signup", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     users.push({
@@ -48,11 +48,19 @@ app.post("/register", async (req, res) => {
       email: req.body.email,
       password: hashedPassword,
     });
-    res.redirect("/login");
+    res.redirect("/secret_list");
   } catch {
-    res.redirect("/register");
+    res.redirect("/signup_error");
   }
   console.log(users);
+});
+
+app.get("/signup_error", (req, res) => {
+  res.render("signup_error.ejs");
+});
+
+app.get("/secret_list", (req, res) => {
+  res.render("secret_list.ejs");
 });
 
 app.listen(3000);
