@@ -15,15 +15,15 @@ app.get("/", (req, res) => {
   res.render("signin.ejs");
 });
 
-app.post("/signin", async (req, res) => {
+app.post("/", async (req, res) => {
   const user = users.find((user) => user.email === req.body.email);
 
   if (user == null) {
     res.redirect("signin_error");
   }
   try {
-    if (bcrypt.compare(req.body.password, user.password)) {
-      res.send("Success");
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      res.redirect("/secret_list");
     } else {
       res.redirect("signin_error");
     }
@@ -48,7 +48,7 @@ app.post("/signup", async (req, res) => {
       email: req.body.email,
       password: hashedPassword,
     });
-    res.redirect("/secret_list");
+    res.redirect("/");
   } catch {
     res.redirect("/signup_error");
   }
@@ -63,4 +63,6 @@ app.get("/secret_list", (req, res) => {
   res.render("secret_list.ejs");
 });
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log("Listening on port 3000");
+});
