@@ -41,18 +41,22 @@ app.get("/signup", (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    users.push({
-      id: Date.now().toString(),
-      email: req.body.email,
-      password: hashedPassword,
-    });
-    res.redirect("/");
-  } catch {
+  if (req.body.password === req.body.confirm_password) {
+    try {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      users.push({
+        id: Date.now().toString(),
+        email: req.body.email,
+        password: hashedPassword,
+      });
+      res.redirect("/");
+    } catch {
+      res.status(500).send();
+    }
+    console.log(users);
+  } else {
     res.redirect("/signup_error");
   }
-  console.log(users);
 });
 
 app.get("/signup_error", (req, res) => {
