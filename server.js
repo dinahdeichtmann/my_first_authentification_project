@@ -30,6 +30,7 @@ app.post("/", async (req, res) => {
   } catch {
     res.status(500).send();
   }
+  console.log(user);
 });
 
 app.get("/signin_error", (req, res) => {
@@ -41,7 +42,10 @@ app.get("/signup", (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-  if (req.body.password === req.body.confirm_password) {
+  if (
+    !users.some((user) => user.email === req.body.email) &&
+    req.body.password === req.body.confirm_password
+  ) {
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       users.push({
