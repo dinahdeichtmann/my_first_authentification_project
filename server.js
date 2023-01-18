@@ -1,7 +1,8 @@
 require("dotenv").config();
 
-const express = require("express");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const express = require("express");
 const { json } = require("express");
 const jwt = require("jsonwebtoken");
 
@@ -11,6 +12,7 @@ const users = [];
 
 app.set("view-engine", "ejs");
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -24,6 +26,7 @@ app.post("/", async (req, res) => {
   if (user == null) {
     res.redirect("signin_error");
   }
+
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
       const token = jwt.sign(user, process.env.MY_SECRET);
@@ -71,10 +74,26 @@ app.get("/signup_error", (req, res) => {
   res.render("signup_error.ejs");
 });
 
-app.get("/secret_list", (req, res) => {
+app.get("/secret_list", authMiddleware(), (req, res) => {
   res.render("secret_list.ejs");
 });
 
 app.listen(3000, () => {
   console.log("Listening on port 3000");
 });
+
+function authMiddleware(req, res, next) {
+  const token = req.cookies.token;
+
+  if (token == null) {
+    res.redirect("/");
+  }
+
+  try {
+    jwt.verify(token, process.env.MY_SECRET);
+    next();
+  } catch {
+    res.clearCookie("token");
+    res.redirect("/");
+  }
+}
