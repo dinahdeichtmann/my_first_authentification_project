@@ -1,6 +1,9 @@
+require("dotenv").config();
+
 const express = require("express");
 const bcrypt = require("bcrypt");
 const { json } = require("express");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 
@@ -23,6 +26,8 @@ app.post("/", async (req, res) => {
   }
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
+      const token = jwt.sign(user, process.env.MY_SECRET);
+      res.cookie("token", token, { httpOnly: true });
       res.redirect("/secret_list");
     } else {
       res.redirect("signin_error");
@@ -30,7 +35,6 @@ app.post("/", async (req, res) => {
   } catch {
     res.status(500).send();
   }
-  console.log(user);
 });
 
 app.get("/signin_error", (req, res) => {
