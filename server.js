@@ -1,3 +1,5 @@
+// IMPORTS
+
 require("dotenv").config();
 
 const bcrypt = require("bcrypt");
@@ -12,9 +14,11 @@ const users = [];
 
 app.set("view-engine", "ejs");
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+
+// SIGN IN SERVICE
 
 app.get("/", (req, res) => {
   res.render("signin.ejs");
@@ -43,6 +47,8 @@ app.post("/", async (req, res) => {
 app.get("/signin_error", (req, res) => {
   res.render("signin_error.ejs");
 });
+
+// SIGN UP SERVICE
 
 app.get("/signup", (req, res) => {
   res.render("signup.ejs");
@@ -74,8 +80,13 @@ app.get("/signup_error", (req, res) => {
   res.render("signup_error.ejs");
 });
 
-const authMiddleware = (req, res, next) => {
-  console.log(req.cookies);
+// SECRET LIST SERVICE
+
+app.get("/secret_list", authMiddleware, (req, res) => {
+  res.render("secret_list.ejs");
+});
+
+function authMiddleware(req, res, next) {
   const token = req.cookies.token;
 
   if (token == null) {
@@ -89,11 +100,9 @@ const authMiddleware = (req, res, next) => {
     res.clearCookie("token");
     res.redirect("/");
   }
-};
+}
 
-app.get("/secret_list", authMiddleware, (req, res) => {
-  res.render("secret_list.ejs");
-});
+// PORT
 
 app.listen(3000, () => {
   console.log("Listening on port 3000");
