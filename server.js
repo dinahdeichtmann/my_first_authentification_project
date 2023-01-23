@@ -12,9 +12,9 @@ const users = [];
 
 app.set("view-engine", "ejs");
 
-app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.render("signin.ejs");
@@ -74,15 +74,8 @@ app.get("/signup_error", (req, res) => {
   res.render("signup_error.ejs");
 });
 
-app.get("/secret_list", authMiddleware(), (req, res) => {
-  res.render("secret_list.ejs");
-});
-
-app.listen(3000, () => {
-  console.log("Listening on port 3000");
-});
-
-function authMiddleware(req, res, next) {
+const authMiddleware = (req, res, next) => {
+  console.log(req.cookies);
   const token = req.cookies.token;
 
   if (token == null) {
@@ -96,4 +89,12 @@ function authMiddleware(req, res, next) {
     res.clearCookie("token");
     res.redirect("/");
   }
-}
+};
+
+app.get("/secret_list", authMiddleware, (req, res) => {
+  res.render("secret_list.ejs");
+});
+
+app.listen(3000, () => {
+  console.log("Listening on port 3000");
+});
