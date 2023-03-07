@@ -1,4 +1,4 @@
-# Quiz App with vanilla HTML, CSS, and JavaScript
+# Authentication project with JWT tokens, NodeMailer and EJS templates
 
 ![Home Screen](./static/homepage.png)
 
