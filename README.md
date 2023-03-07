@@ -21,8 +21,3 @@ On the front-end, I learned to work with **Embedded JavaScript templating**, and
 - Using refresh tokens with JWT
 - Invalidating refresh tokens to log users out
 - How to use JWT securely
-
-## Credit
-
-- [Course Source Code](https://github.com/jamesqquick/Design-And-Build-A-Quiz-App)
-- [Video Course](https://www.youtube.com/playlist?list=PLB6wlEeCDJ5Yyh6P2N6Q_9JijB6v4UejF)
