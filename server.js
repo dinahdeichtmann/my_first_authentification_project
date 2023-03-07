@@ -18,6 +18,7 @@ app.set("view-engine", "ejs");
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname + "/"));
 
 // SIGN IN SERVICE
 
