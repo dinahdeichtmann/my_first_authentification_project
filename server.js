@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const express = require("express");
 const { json } = require("express");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 const app = express();
 
@@ -68,7 +69,7 @@ app.post("/signup", async (req, res) => {
       });
       res.redirect("/");
     } catch {
-      res.status(500).send();
+      res.status(500).send("Error");
     }
     console.log(users);
   } else {
@@ -98,8 +99,45 @@ function authMiddleware(req, res, next) {
     next();
   } catch {
     res.clearCookie("token");
-    res.redirect("/");
+    res.render("forgotten_password.ejs");
   }
+}
+
+// FORGOTTEN PASSWORD SERVICE
+
+app.get("/forgotten_password", (req, res) => {
+  res.render("forgotten_password.ejs");
+});
+
+app.post("/forgotten_password", (req, res) => {});
+
+function sendEmail(req, res, next) {
+  const transporter = nodemailer.createTransport({
+    host: "smtp.online.net",
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+    name: "shdl.fr",
+  });
+
+  const mailOptions = {
+    from: '"Evil League of Evil" <evilleagueofevil@evilmail.com>',
+    to: req.body.email,
+    subject: "Reset your password",
+    text: "Here is the link to reset your password: ",
+    html: "Here is the link to reset your password: ",
+  };
+
+  transporter.sendMail(mailOptions, (error) => {
+    if (error) {
+      res.status(500).send("Error");
+    } else {
+      res.render("email_sent.ejs");
+    }
+  });
 }
 
 // PORT
