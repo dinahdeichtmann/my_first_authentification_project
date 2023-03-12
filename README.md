@@ -7,14 +7,14 @@ This **authentication project** is a **student project** I **built from scratch*
 Working on this project, I learned to use **JWT tokens**, a **.env file**, **cookies**, and **Nodemailer** on the back-end.
 On the front-end, I learned to work with **Embedded JavaScript templating**, and I also used **CSS animations** to add some style to the finished product.
 
-## Technologies used
+## Technologies
 
 - JavaScript
 - EJS
 - Node.js: Express, JWT tokens, bcrypt, Nodemailer
 - CSS
 
-## Skills gained
+## Skills
 
 - Creating Node.js authentication middleware
 - Authenticating users with JWT
