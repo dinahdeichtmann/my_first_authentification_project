@@ -21,3 +21,9 @@ On the front-end, I learned to work with **Embedded JavaScript templating**, and
 - Using refresh tokens with JWT
 - Invalidating refresh tokens to log users out
 - How to use JWT securely
+
+## Functionalities
+
+- Create an account
+- Log in / log out
+- Set a new password 
